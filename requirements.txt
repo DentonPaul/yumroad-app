@@ -1,0 +1,7 @@
+flask
+
+gunicorn
+
+pytest
+pytest-flask
+pytest-cov
