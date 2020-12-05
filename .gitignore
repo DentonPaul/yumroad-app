@@ -12,5 +12,8 @@ database.db
 *.db
 *.db-journal
 
+# pytest
+.coverage
+
 # Visual Studio Code
 .vscode
