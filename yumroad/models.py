@@ -11,6 +11,3 @@ class Product(db.Model):
         if len(name.strip()) <= 3:
             raise ValueError("Needs to have a real name")
         return name
-
-
-
