@@ -1,6 +1,7 @@
 flask
 
 flask-sqlalchemy
+Flask-WTF
 
 gunicorn
 

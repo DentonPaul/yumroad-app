@@ -3,10 +3,12 @@ class BaseConfig:
 
 class DevConfig(BaseConfig):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///dev.db'
+    WTF_CSRF_ENABLED = False
     SQLALCHEMY_ECHO = True
 
 class TestConfig(BaseConfig):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///test.db'
+    WTF_CSRF_ENABLED = False
     TESTING = True
 
 class ProdConfig(BaseConfig):
