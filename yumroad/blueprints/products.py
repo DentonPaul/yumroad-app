@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, session
 
 from yumroad.extensions import db
 from yumroad.models import Product
@@ -8,6 +8,7 @@ products = Blueprint('products', __name__)
 
 @products.route('/')
 def index():
+    print(session)
     all_products = Product.query.all()
     return render_template('products/index.html', products=all_products)
 

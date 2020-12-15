@@ -2,6 +2,8 @@ flask
 
 flask-sqlalchemy
 Flask-WTF
+Flask-Login
+wtforms[email]
 
 gunicorn
 
