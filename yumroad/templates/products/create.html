@@ -1,12 +1,18 @@
-{% extends 'base_layout.html' %}
+{% extends "base_layout.html" %}
 {% from "_formhelpers.html" import render_field %}
+
 {% block title %} New Product {% endblock %}
 
 {% block content %}
-    <form method="POST">
-        {{ render_field(form.name) }}
-        {{ render_field(form.description) }}
-        <button type="submit" class="btn btn-primary"> Create Product </button>
+  <div class="container">
 
+    <form method="POST" action="{{ url_for('products.create') }}">
+      {{ form.csrf_token }}
+
+      {{ render_field(form.name) }}
+      {{ render_field(form.description) }}
+      <button type="submit" class="btn btn-primary">Create</button>
     </form>
+
+  </div>
 {% endblock %}
