@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from werkzeug.security import check_password_hash
 from wtforms.fields import StringField, PasswordField
-from wtforms.validators import Length, email, required, EqualTo
+from wtforms.validators import Length, email, EqualTo, DataRequired
 from yumroad.models import User
 
 class ProductForm(FlaskForm):
@@ -9,9 +9,9 @@ class ProductForm(FlaskForm):
     description = StringField('Description')
 
 class SignupForm(FlaskForm):
-    email = StringField('Email', validators=[email(), required()])
-    password = PasswordField('Password', validators=[required(), Length(min=4), EqualTo('confirm', message='Passwords must match')])
-    confirm = PasswordField('Confirm Password', validators=[required()])
+    email = StringField('Email', validators=[email(), DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=4), EqualTo('confirm', message='Passwords must match')])
+    confirm = PasswordField('Confirm Password', validators=[DataRequired()])
 
     def validate(self):
         check_validate = super(SignupForm, self).validate()
@@ -26,16 +26,16 @@ class SignupForm(FlaskForm):
         return True
 
 class LoginForm(FlaskForm):
-    email = StringField('Email', validators=[email(), required()])
-    password = PasswordField('Password', validators=[required()])
+    email = StringField('Email', validators=[email(), DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
 
     def validate(self):
-        check_validate = super(SignupForm, slef).validate()
+        check_validate = super(LoginForm, self).validate()
         if not check_validate:
             return False
 
         user = User.query.filter_by(email=self.email.data).first()
-        if not user and not check_password_hash(user.password, self.password.data): # should be 'or'?
+        if not user or not check_password_hash(user.password, self.password.data): # should be 'or'?
             self.email.errors.append('Invalid email or password')
             return False
 

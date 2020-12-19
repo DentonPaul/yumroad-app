@@ -14,6 +14,7 @@ class TestConfig(BaseConfig):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///test.db'
     WTF_CSRF_ENABLED = False
     SECRET_KEY = os.getenv('SECRET_KEY')
+    # WTF_CSRF_SECRET_KEY = False
     TESTING = True
 
 class ProdConfig(BaseConfig):
