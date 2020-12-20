@@ -9,6 +9,8 @@ class Product(db.Model):
     description = db.Column(db.String(120), nullable = True)
     creator_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     store_id = db.Column(db.Integer, db.ForeignKey('store.id'))
+    price_cents = db.Column(db.Integer)
+    picture_url = db.Column(db.Text)
 
     creator = db.relationship("User", uselist=False, back_populates="products")
     store = db.relationship('Store', uselist=False, back_populates='products')

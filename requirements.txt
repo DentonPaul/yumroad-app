@@ -4,6 +4,7 @@ flask-sqlalchemy
 Flask-WTF
 Flask-Login
 wtforms[email]
+Flask-Migrate
 
 gunicorn
 
