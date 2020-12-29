@@ -5,6 +5,9 @@ class BaseConfig:
     WTF_CSRF_ENABLED = True
     SECRET_KEY = os.getenv('SECRET_KEY', 'rand012345')
 
+    MAILGUN_DOMAIN = os.getenv('MAILGUN_DOMAIN')
+    MAILGUN_KEY = os.getenv('MAILGUN_KEY')
+
 class DevConfig(BaseConfig):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///dev.db'
     SQLALCHEMY_ECHO = True

@@ -4,7 +4,7 @@ from yumroad.blueprints.products import products
 from yumroad.blueprints.users import user_bp
 from yumroad.blueprints.stores import store_bp
 from yumroad.config import configurations
-from yumroad.extensions import (db, csrf, login_manager, migrate)
+from yumroad.extensions import (db, csrf, login_manager, migrate) #mail
 
 def create_app(environment_name='dev'):
     app = Flask(__name__)
@@ -14,6 +14,7 @@ def create_app(environment_name='dev'):
     csrf.init_app(app)
     login_manager.init_app(app)
     migrate.init_app(app, db, render_as_batch=True)
+    # mail.init_app(app)
 
     app.register_blueprint(products, url_prefix='/product')
     app.register_blueprint(user_bp)

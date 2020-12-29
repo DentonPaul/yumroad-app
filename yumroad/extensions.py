@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
 from flask_login import LoginManager
 from flask_migrate import Migrate
+# from flask_mail import Mail
 from sqlalchemy import MetaData
 
 naming_convention = {
@@ -16,3 +17,4 @@ db = SQLAlchemy(metadata=MetaData(naming_convention=naming_convention))
 csrf = CSRFProtect()
 login_manager = LoginManager()
 migrate = Migrate() 
+# mail = Mail()

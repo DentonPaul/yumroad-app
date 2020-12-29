@@ -3,6 +3,7 @@ from flask import Blueprint, render_template, redirect, url_for, flash, session,
 from yumroad.extensions import db, login_manager
 from yumroad.models import User, Store
 from yumroad.forms import SignupForm, LoginForm
+from yumroad.email import send_welcome_message
 
 from flask_login import login_user, current_user, login_required, logout_user
 
@@ -31,6 +32,7 @@ def register():
         store = Store(name=form.store_name.data, user=user)  # may need another db.session.add(store)
         db.session.commit()
         login_user(user)
+        send_welcome_message(user)
         flash("Registered successfully", "success")
         return redirect(url_for('products.index'))
     return render_template('users/register.html', form=form)
