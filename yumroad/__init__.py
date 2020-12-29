@@ -22,7 +22,7 @@ def create_app(environment_name='dev'):
 
     @app.route('/')
     def home():
-        return redirect(url_for('store.index'))
+        return redirect(url_for('products.index'))
     return app
 
 

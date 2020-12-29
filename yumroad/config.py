@@ -8,6 +8,10 @@ class BaseConfig:
     MAILGUN_DOMAIN = os.getenv('MAILGUN_DOMAIN')
     MAILGUN_KEY = os.getenv('MAILGUN_KEY')
 
+    STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', 'sk_test_k1')
+    STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY', 'sk_test_k1')
+    STRIPE_WEBHOOK_KEY = os.getenv('STRIPE_WEBHOOK_KEY', 'whsec_test_secret')
+
 class DevConfig(BaseConfig):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///dev.db'
     SQLALCHEMY_ECHO = True

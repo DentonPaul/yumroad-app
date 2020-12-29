@@ -24,9 +24,15 @@ def create():
     form = ProductForm()
 
     if form.validate_on_submit(): # request is a POST and values are valid
-        product = Product(name=form.name.data, creator=current_user, 
-                          store=current_user.store,
-                          description=form.description.data)
+        price = form.price.data or 0
+        product = Product(
+            description=form.description.data,
+            price_cents=int(price*100),
+            picture_url=form.picture_url.data,
+            name=form.name.data,   
+            creator=current_user,
+            store=current_user.store,
+        )
         db.session.add(product)
         db.session.commit()
         return redirect(url_for('products.details', product_id=product.id))

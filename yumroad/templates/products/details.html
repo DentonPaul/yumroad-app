@@ -2,9 +2,19 @@
 {% block title %} {{ product.name }} {% endblock %}
 
 {% block content %}
-    <h1> {{ product.name }} </h1>
-    <hr />
-    <span>{{ product.description }}</span>
-    <hr />
-    <button class="btn btn-primary"> Purchase coming soon </button>
+<div class="row mb-2">
+    <div class="col col-12 col-sm-6">
+      <img src="{{ product.primary_image_url }}" alt="Product Image" class="img-fluid img-thumbnail" />
+    </div>
+    <div class="col col-12 col-sm-6">
+      <h1> {{ product.name }} </h1>
+      <hr />
+        <button class="btn btn-primary"> Buy for {{ "${:,.2f}".format(product.price_cents/100.0) }} </button>
+        <hr />
+      <span> {{ product.description }} </span>
+      <hr />
+      <a href="{{ url_for('store.show', store_id=product.store.id) }}" class="btn btn-secondary btn-sm">
+        See more products from {{ product.store.name }} </a>
+    </div>
+  </div>
 {% endblock %}

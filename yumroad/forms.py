@@ -1,12 +1,16 @@
 from flask_wtf import FlaskForm
 from werkzeug.security import check_password_hash
 from wtforms.fields import StringField, PasswordField
-from wtforms.validators import Length, email, EqualTo, DataRequired
+from wtforms.fields.html5 import DecimalField
+from wtforms.validators import Length, email, EqualTo, DataRequired, URL, Optional
 from yumroad.models import User
 
 class ProductForm(FlaskForm):
     name = StringField('Name', [Length(min=4, max=60)])
     description = StringField('Description')
+    picture_url = StringField('Picture URL', description='Optional', validators=[Optional(), URL()])
+    price = DecimalField('Price', description='in USD, Optional')
+
 
 class SignupForm(FlaskForm):
     email = StringField('Email', validators=[email(), DataRequired()])

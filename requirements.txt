@@ -5,6 +5,7 @@ Flask-WTF
 Flask-Login
 wtforms[email]
 Flask-Migrate
+stripe
 
 gunicorn
 requests
