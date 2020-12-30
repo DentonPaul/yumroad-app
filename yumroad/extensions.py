@@ -5,6 +5,8 @@ from flask_migrate import Migrate
 # from flask_mail import Mail
 from sqlalchemy import MetaData
 
+from yumroad.payments import Checkout
+
 naming_convention = {
     "ix": 'ix_%(column_0_label)s',
     "uq": "uq_%(table_name)s_%(column_0_name)s",
@@ -18,3 +20,4 @@ csrf = CSRFProtect()
 login_manager = LoginManager()
 migrate = Migrate() 
 # mail = Mail()
+checkout = Checkout()
