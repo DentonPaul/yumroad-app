@@ -8,8 +8,9 @@ from yumroad.blueprints.users import user_bp
 from yumroad.blueprints.stores import store_bp
 from yumroad.blueprints.checkout import checkout_bp
 from yumroad.blueprints.landing import landing_bp
+from yumroad.blueprints.rq_dashboard import rq_blueprint
 from yumroad.config import configurations
-from yumroad.extensions import (db, csrf, login_manager, migrate, checkout, assets_env) #mail
+from yumroad.extensions import (db, csrf, login_manager, migrate, checkout, assets_env, rq2) #mail
 
 from webassets.loaders import PythonLoader as PythonAssetsLoader
 from yumroad import assets
@@ -25,6 +26,7 @@ def create_app(environment_name='dev'):
     # mail.init_app(app)
     checkout.init_app(app)
     assets_env.init_app(app)
+    rq2.init_app(app)
 
     if app.config.get('SENTRY_DSN'):
         sentry_sdk.init(
@@ -32,7 +34,7 @@ def create_app(environment_name='dev'):
             integrations=[FlaskIntegration(), SqlalchemyIntegration()],
             send_default_pii=True,
             traces_sample_rate=1.0
-        )
+        ) # pragma: no cover
 
     assets_loader = PythonAssetsLoader(assets)
     for name, bundle in assets_loader.load_bundles().items():
@@ -43,6 +45,8 @@ def create_app(environment_name='dev'):
     app.register_blueprint(store_bp, url_prefix='/store')
     app.register_blueprint(checkout_bp)
     app.register_blueprint(landing_bp)
+    app.register_blueprint(rq_blueprint, url_prefix='/rq')
+    csrf.exempt(rq_blueprint)
 
     @app.errorhandler(401)
     def unauthorized_error(error):

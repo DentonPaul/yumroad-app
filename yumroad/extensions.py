@@ -5,6 +5,7 @@ from flask_migrate import Migrate
 # from flask_mail import Mail
 from flask_assets import Environment
 from sqlalchemy import MetaData
+from flask_rq2 import RQ
 
 from yumroad.payments import Checkout
 
@@ -23,3 +24,4 @@ migrate = Migrate()
 # mail = Mail()
 checkout = Checkout()
 assets_env = Environment()
+rq2 = RQ()

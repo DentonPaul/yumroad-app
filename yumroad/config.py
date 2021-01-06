@@ -14,6 +14,10 @@ class BaseConfig:
 
     SENTRY_DSN = os.getenv('SENTRY_DSN')
 
+    REDIS_URL = os.getenv('REDIS_URL', 'redis://localhost:6379/0')
+    RQ_REDIS_URL = REDIS_URL
+    RQ_DASHBOARD_REDIS_URL =  RQ_REDIS_URL
+
 class DevConfig(BaseConfig):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///dev.db'
     SQLALCHEMY_ECHO = True
@@ -28,8 +32,14 @@ class TestConfig(BaseConfig):
     TESTING = True
     ASSETS_DEBUG = True
 
+    # run jobs instantly, without need to spin up a worker
+    RQ_ASYNC = False
+    RQ_CONNECTION_CLASS = 'fakeredis.FakeStrictRedis'
+
 class ProdConfig(BaseConfig):
     SECRET_KEY = os.getenv('SECRET_KEY')
+    RQ_REDIS_URL = REDIS_URL = os.getenv('REDIS_URL')
+    RQ_ASYNC = (REDIS_URL is not None)
 
 configurations = {
     'dev': DevConfig,
