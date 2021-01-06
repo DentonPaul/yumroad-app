@@ -13,11 +13,13 @@ cssmin
 jsmin
 sentry-sdk[flask]
 
+flask-debugtoolbar
+Flask-Caching
+
 Flask-RQ2
 rq-dashboard
 rq==1.4.3
 fakeredis
-
 
 gunicorn
 requests

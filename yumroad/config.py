@@ -23,6 +23,8 @@ class DevConfig(BaseConfig):
     SQLALCHEMY_ECHO = True
     SECRET_KEY = os.getenv('SECRET_KEY')
     ASSETS_DEBUG = True
+    DEBUG_TB_INTERCEPT_REDIRECTS = False
+    CACHE_TYPE = 'simple'
 
 class TestConfig(BaseConfig):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///test.db'
@@ -31,6 +33,9 @@ class TestConfig(BaseConfig):
     # WTF_CSRF_SECRET_KEY = False
     TESTING = True
     ASSETS_DEBUG = True
+    DEBUG_TB_ENABLED = False
+    CACHE_TYPE = 'null'
+    CACHE_NO_NULL_WARNING = True
 
     # run jobs instantly, without need to spin up a worker
     RQ_ASYNC = False
@@ -40,6 +45,8 @@ class ProdConfig(BaseConfig):
     SECRET_KEY = os.getenv('SECRET_KEY')
     RQ_REDIS_URL = REDIS_URL = os.getenv('REDIS_URL')
     RQ_ASYNC = (REDIS_URL is not None)
+    CACHE_TYPE = 'redis'
+    CACHE_KEY_PREFIX = 'yumroad-'
 
 configurations = {
     'dev': DevConfig,

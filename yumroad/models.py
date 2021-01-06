@@ -46,7 +46,7 @@ class Store(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     user = db.relationship('User', uselist=False, back_populates='store')
-    products = db.relationship('Product', back_populates='store')
+    products = db.relationship('Product', back_populates='store', lazy='joined')
 
     @validates('name')
     def validate_name(self, key, name):

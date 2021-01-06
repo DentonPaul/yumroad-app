@@ -10,7 +10,8 @@ from yumroad.blueprints.checkout import checkout_bp
 from yumroad.blueprints.landing import landing_bp
 from yumroad.blueprints.rq_dashboard import rq_blueprint
 from yumroad.config import configurations
-from yumroad.extensions import (db, csrf, login_manager, migrate, checkout, assets_env, rq2) #mail
+from yumroad.extensions import (db, csrf, login_manager, migrate, checkout, 
+                                assets_env, rq2, debug_toolbar, cache) #mail
 
 from webassets.loaders import PythonLoader as PythonAssetsLoader
 from yumroad import assets
@@ -27,6 +28,8 @@ def create_app(environment_name='dev'):
     checkout.init_app(app)
     assets_env.init_app(app)
     rq2.init_app(app)
+    debug_toolbar.init_app(app)
+    cache.init_app(app)
 
     if app.config.get('SENTRY_DSN'):
         sentry_sdk.init(

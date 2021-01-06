@@ -6,6 +6,8 @@ from flask_migrate import Migrate
 from flask_assets import Environment
 from sqlalchemy import MetaData
 from flask_rq2 import RQ
+from flask_debugtoolbar import DebugToolbarExtension
+from flask_caching import Cache
 
 from yumroad.payments import Checkout
 
@@ -25,3 +27,5 @@ migrate = Migrate()
 checkout = Checkout()
 assets_env = Environment()
 rq2 = RQ()
+debug_toolbar = DebugToolbarExtension()
+cache = Cache()
