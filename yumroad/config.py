@@ -42,8 +42,11 @@ class TestConfig(BaseConfig):
     RQ_CONNECTION_CLASS = 'fakeredis.FakeStrictRedis'
 
 class ProdConfig(BaseConfig):
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
     SECRET_KEY = os.getenv('SECRET_KEY')
-    RQ_REDIS_URL = REDIS_URL = os.getenv('REDIS_URL')
+    REDIS_URL = os.getenv('REDIS_URL')
+    RQ_REDIS_URL = REDIS_URL
+    RQ_DASHBOARD_REDIS_URL = RQ_REDIS_URL
     RQ_ASYNC = (REDIS_URL is not None)
     CACHE_TYPE = 'redis'
     CACHE_KEY_PREFIX = 'yumroad-'

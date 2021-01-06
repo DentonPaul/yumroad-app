@@ -20,3 +20,4 @@ database.db
 .vscode
 
 yumroad/static/public/
+# yumroad/static/public/js/common.js
