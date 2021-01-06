@@ -1,4 +1,7 @@
-from flask import Flask, redirect, url_for
+from flask import Flask, redirect, url_for, render_template
+import sentry_sdk
+from sentry_sdk.integrations.flask import FlaskIntegration
+from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 
 from yumroad.blueprints.products import products
 from yumroad.blueprints.users import user_bp
@@ -22,6 +25,15 @@ def create_app(environment_name='dev'):
     # mail.init_app(app)
     checkout.init_app(app)
     assets_env.init_app(app)
+
+    if app.config.get('SENTRY_DSN'):
+        sentry_sdk.init(
+            dsn=app.config['SENTRY_DSN'],
+            integrations=[FlaskIntegration(), SqlalchemyIntegration()],
+            send_default_pii=True,
+            traces_sample_rate=1.0
+        )
+
     assets_loader = PythonAssetsLoader(assets)
     for name, bundle in assets_loader.load_bundles().items():
         assets_env.register(name, bundle)
@@ -31,6 +43,18 @@ def create_app(environment_name='dev'):
     app.register_blueprint(store_bp, url_prefix='/store')
     app.register_blueprint(checkout_bp)
     app.register_blueprint(landing_bp)
+
+    @app.errorhandler(401)
+    def unauthorized_error(error):
+        return render_template('errors/401.html'), 401 # pragma: no cover
+
+    @app.errorhandler(404)
+    def not_found_error(error):
+        return render_template('errors/404.html'), 404
+
+    @app.errorhandler(500)
+    def internal_error(error):
+        return render_template('errors/500.html'), 500 # pragma: no cover
 
     return app
 

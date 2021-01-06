@@ -12,6 +12,8 @@ class BaseConfig:
     STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY', 'sk_test_k1')
     STRIPE_WEBHOOK_KEY = os.getenv('STRIPE_WEBHOOK_KEY', 'whsec_test_secret')
 
+    SENTRY_DSN = os.getenv('SENTRY_DSN')
+
 class DevConfig(BaseConfig):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///dev.db'
     SQLALCHEMY_ECHO = True
