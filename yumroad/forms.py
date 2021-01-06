@@ -9,7 +9,7 @@ class ProductForm(FlaskForm):
     name = StringField('Name', [Length(min=4, max=60)])
     description = StringField('Description')
     picture_url = StringField('Picture URL', description='Optional', validators=[Optional(), URL()])
-    price = DecimalField('Price', description='in USD, Optional')
+    price = DecimalField('Price', description='in USD, Optional', validators=[Optional()]) # Should this be optional???
 
 
 class SignupForm(FlaskForm):

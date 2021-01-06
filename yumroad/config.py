@@ -16,6 +16,7 @@ class DevConfig(BaseConfig):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///dev.db'
     SQLALCHEMY_ECHO = True
     SECRET_KEY = os.getenv('SECRET_KEY')
+    ASSETS_DEBUG = True
 
 class TestConfig(BaseConfig):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///test.db'
@@ -23,6 +24,7 @@ class TestConfig(BaseConfig):
     SECRET_KEY = os.getenv('SECRET_KEY')
     # WTF_CSRF_SECRET_KEY = False
     TESTING = True
+    ASSETS_DEBUG = True
 
 class ProdConfig(BaseConfig):
     SECRET_KEY = os.getenv('SECRET_KEY')

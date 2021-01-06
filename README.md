@@ -6,7 +6,7 @@
 - export FLASK_ENV=development
 - flask shell
 - run 'pytest --cov=yumroad --cov-report term-missing' on terminal to test
-- do not forget to export SECRET_KEY as env variable when testing
+- set all environmental variables when testing
 
 ### ToDo
 - Mailgun testing coverage

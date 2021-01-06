@@ -4,7 +4,7 @@ from flask import url_for
 
 from yumroad import create_app
 from yumroad.extensions import db
-from yumroad.models import User
+from yumroad.models import User, Store, Product
 
 @pytest.fixture
 def app():
@@ -19,6 +19,7 @@ def init_database():
 @pytest.fixture
 def authenticated_request(client):
     new_user = User.create('test@example.com', 'examplepass')
+    store = Store(name="Test Store", user=new_user)
     db.session.add(new_user)
     db.session.commit()
 
@@ -27,3 +28,12 @@ def authenticated_request(client):
         'password': 'examplepass'
     }, follow_redirects=True)
     yield client
+
+@pytest.fixture
+def user_with_product():
+    new_user = User.create("test@example.com", "pass")
+    store = Store(name="Test Store", user=new_user)
+    product = Product(name='Test Product', description='a product', store=store)
+    db.session.add(product)
+    db.session.commit()
+    yield new_user

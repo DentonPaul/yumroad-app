@@ -1,11 +1,17 @@
 from flask import url_for
 import pytest
+import vcr
 from yumroad.extensions import db
-from yumroad.models import Product
+from yumroad.models import Product, Store, User
 
 @pytest.fixture
 def sample_book():
-    book = Product(name="Sherlock Homes", description="A house hunting detective")
+    new_user = User.create('store@example.com', 'examplepass')
+    db.session.add(new_user)
+    store = Store(name='Store Name', user=new_user)
+    # db.session.add(store)
+    book = Product(name="Sherlock Homes", store=store,
+                    description="A house hunting detective")
     db.session.add(book)
     db.session.commit()
     return book
@@ -21,7 +27,7 @@ def test_product_creation(client, init_database, authenticated_request):
 def test_name_validation(client, init_database):
     with pytest.raises(ValueError):
         Product(name='    a', description='invalid book')
-
+        
 def test_index_page(client, init_database, sample_book):
     response = client.get(url_for('products.index'))
     assert response.status_code == 200
@@ -31,12 +37,13 @@ def test_index_page(client, init_database, sample_book):
     expected_link = url_for('products.details', product_id=sample_book.id)
     assert expected_link in str(response.data)
 
-
+@vcr.use_cassette('tests/cassettes/new_stripe_session.yaml',
+                  filter_headers=['authorization'], record_mode='once') # vcr not working
 def test_details_page(client, init_database, sample_book):
     response = client.get(url_for('products.details', product_id=sample_book.id))
     assert response.status_code == 200
-    assert 'Yumroad' in str(response.data)
-    assert 'Purchase coming soon' in str(response.data)
+    assert b'Yumroad' in response.data
+    assert b'See more products' in response.data
 
 def test_not_found(client, init_database):
     response = client.get(url_for('products.details', product_id=1))
@@ -58,11 +65,11 @@ def test_new_page_unauth(client, init_database):
 
 def test_creation(client, init_database, authenticated_request):
     response = client.post(url_for('products.create'),
-                            data=dict(name='test product', description='is persisted'),
+                            data=dict(name='Test Product', description='is persisted'),
                             follow_redirects=True)
+
     assert response.status_code == 200
-    assert b'test product' in response.data
-    assert b'Purchase' in response.data
+    assert b'Sold out' in response.data
 
 def test_invalid_creation(client, init_database, authenticated_request):
     response = client.post(url_for('products.create'),

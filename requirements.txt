@@ -6,6 +6,11 @@ Flask-Login
 wtforms[email]
 Flask-Migrate
 stripe
+vcrpy
+
+flask-assets
+cssmin
+jsmin
 
 gunicorn
 requests
